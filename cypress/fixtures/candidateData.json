@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "John",
+    "middleName": "Michael",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "contact": "0911002003",
+    "jobVacancy": "QA Engineer",
+    "expected": "success"
+  },
+  {
+    "firstName": "Alice",
+    "middleName": "Becky",
+    "lastName": "Smith",
+    "email": "alice.smith@example.com",
+    "contact": "0911999888",
+    "jobVacancy": "Software Tester",
+    "expected": "success"
+  },
+  {
+    "firstName": "",
+    "middleName": "",
+    "lastName": "",
+    "email": "",
+    "contact": "",
+    "jobVacancy": "",
+    "expected": "fail"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "username": "Esmael-QA",
+    "password": "Esma123!@#",
+    "expected": "success"
+  },
+  {
+    "username": "user",
+    "password": "user123",
+    "expected": "fail"
+  },
+  {
+    "username": "",
+    "password": "",
+    "expected": "fail"
+  }
+]
