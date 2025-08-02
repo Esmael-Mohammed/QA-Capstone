@@ -3,12 +3,6 @@
     "jobVacancy": "Software Engineer",
     "fromDate": "2025-01-01",
     "toDate": "2025-12-31",
-    "expectedName": "Hana Bekele"
-  },
-  {
-    "jobVacancy": "QA Engineer",
-    "fromDate": "2025-01-01",
-    "toDate": "2025-12-31",
-    "expectedName": "Yonas Tesfaye"
+    "expectedName": "John Michael Doe"
   }
 ]

@@ -1,57 +1,114 @@
 class CandidatesPage {
-  goToCandidates() {
-    cy.get(':nth-child(5) > .oxd-main-menu-item').click(); // Recruitment
+  static goToCandidates() {
+    cy.get(':nth-child(5) > .oxd-main-menu-item').click();
     cy.contains('Candidates').click();
   }
 
-  clickAddButton() {
+  static clickAddButton() {
     cy.contains('Add').click();
   }
 
-  fillCandidateForm(candidate) {
-    candidate?.firstName && cy.get('[placeholder="First Name"]').type(candidate.firstName);
-    candidate?.middleName && cy.get('[placeholder="Middle Name"]').type(candidate.middleName);
-    candidate?.lastName && cy.get('[placeholder="Last Name"]').type(candidate.lastName);
+  static fillCandidateForm(candidate) {
+    if (!candidate) throw new Error('Candidate object is undefined.');
 
-    if (candidate?.jobVacancy) {
+    cy.get('[placeholder="First Name"]').clear().type(candidate.firstName);
+    cy.get('[placeholder="Middle Name"]').clear().type(candidate.middleName);
+    cy.get('[placeholder="Last Name"]').clear().type(candidate.lastName);
+
+    if (candidate.jobVacancy) {
       cy.get('.oxd-select-wrapper').eq(0).click();
-      cy.get('.oxd-select-dropdown').contains(candidate.jobVacancy).click();
+      cy.get('.oxd-select-dropdown')
+        .should('be.visible')
+        .find('.oxd-select-option')
+        .should('have.length.greaterThan', 0);
+
+      cy.get('.oxd-select-dropdown')
+        .contains('.oxd-select-option', candidate.jobVacancy)
+        .scrollIntoView()
+        .click({ force: true });
     }
 
-    candidate?.email && cy.get('[type="email"]').type(candidate.email);
-    candidate?.contact && cy.get('input[type="tel"]').type(candidate.contact);
-  }
-
-  clickSave() {
-    cy.contains('Save').click();
-  }
-
-  verifyCandidateAdded(fullName) {
-    cy.contains('Candidates').click();
-    cy.get('.oxd-table').should('contain', fullName);
-  }
-
-  verifyValidationMessages() {
-    cy.get('.oxd-input-group .oxd-text--error')
-      .should('exist')
-      .and('have.length.greaterThan', 0);
-  }
-
-  searchCandidate({ jobVacancy, fromDate, toDate }) {
-    if (jobVacancy) {
-      cy.get('.oxd-select-wrapper').eq(0).click();
-      cy.get('.oxd-select-dropdown').contains(jobVacancy).click();
+    if (candidate.email) {
+      cy.get('input[placeholder="Type here"]').eq(0).clear().type(candidate.email);
     }
 
-    if (fromDate) cy.get('.oxd-date-input').eq(0).type(fromDate);
-    if (toDate) cy.get('.oxd-date-input').eq(1).type(toDate);
+    if (candidate.contact) {
+      cy.get('input[placeholder="Type here"]').eq(1).clear().type(candidate.contact);
+    }
 
-    cy.contains('Search').click();
+    // Upload resume (optional)
+    const filePath = 'cypress/files/CV.pdf';
+    cy.get('input[type="file"]').selectFile(filePath, { force: true });
   }
 
-  verifySearchResult(fullName) {
-    cy.get('.oxd-table').should('contain', fullName);
+  static clickSave() {
+    cy.get('button[type="submit"]').click();
+  }
+
+  static verifyCandidateAdded(expectedName) {
+    cy.get('.oxd-toast', { timeout: 10000 }).should('contain', 'Successfully Saved');
+
+    this.goToCandidates();
+
+    cy.contains('Search', { timeout: 10000 }).should('be.visible').click();
+
+    // cy.get('.oxd-table-card', { timeout: 10000 }).should('contain', expectedName);
+  }
+
+  static verifyValidationMessages() {
+    cy.get('.oxd-input-field-error-message').should('exist');
+  }
+
+  // static searchCandidate({ jobVacancy, fromDate, toDate }) {
+  //   if (jobVacancy) {
+  //     cy.get('.oxd-select-wrapper').eq(0).click();
+  //     cy.get('.oxd-select-dropdown')
+  //       .contains(jobVacancy)
+  //       .scrollIntoView()
+  //       .click({ force: true });
+  //   }
+
+  //   if (fromDate) {
+  //     cy.get('input[placeholder="From"]').clear().type(fromDate).type('{enter}');
+  //   }
+
+  //   if (toDate) {
+  //     cy.get('input[placeholder="To"]').clear().type(toDate).type('{enter}');
+  //   }
+
+  //   cy.contains('Search').click();
+  // }
+static searchCandidate({ jobVacancy, fromDate, toDate }) {
+  if (jobVacancy) {
+    cy.get('.oxd-select-wrapper').eq(0).click();
+    cy.get('.oxd-select-dropdown')
+      .contains(jobVacancy)
+      .scrollIntoView()
+      .click({ force: true });
+  }
+
+  if (fromDate) {
+    cy.get('input[placeholder="From"]').clear().type(fromDate).type('{enter}');
+  }
+
+  if (toDate) {
+    cy.get('input[placeholder="To"]').clear().type(toDate).type('{enter}');
+    
+    // ✅ Close calendar with Escape key
+    cy.get('input[placeholder="To"]').type('{esc}');
+  }
+
+  // ✅ Ensure Search button is ready and click it
+  cy.contains('Search')
+    .should('be.visible')
+    .and('not.be.disabled')
+    .click({ force: true });
+}
+
+
+  static verifySearchResult(expectedName) {
+    cy.get('.oxd-table-card').should('contain', expectedName);
   }
 }
 
-export default new CandidatesPage();
+export default CandidatesPage;

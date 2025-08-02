@@ -41,7 +41,7 @@ module.exports = defineConfig({
       return config;
     },
 
-    baseUrl: 'http://localhost/orangehrm',
+    baseUrl: 'https://opensource-demo.orangehrmlive.com',
     specPattern: 'cypress/e2e/**/*.spec.js',
     retries: {
       runMode: 2,

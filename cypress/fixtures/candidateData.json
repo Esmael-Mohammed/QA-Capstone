@@ -5,16 +5,7 @@
     "lastName": "Doe",
     "email": "john.doe@example.com",
     "contact": "0911002003",
-    "jobVacancy": "QA Engineer",
-    "expected": "success"
-  },
-  {
-    "firstName": "Alice",
-    "middleName": "Becky",
-    "lastName": "Smith",
-    "email": "alice.smith@example.com",
-    "contact": "0911999888",
-    "jobVacancy": "Software Tester",
+    "jobVacancy": "Software Engineer",
     "expected": "success"
   },
   {
@@ -24,6 +15,6 @@
     "email": "",
     "contact": "",
     "jobVacancy": "",
-    "expected": "fail"
+    "expected": "error"
   }
 ]

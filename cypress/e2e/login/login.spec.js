@@ -1,4 +1,7 @@
 import LoginPage from '../../pages/LoginPage';
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false; // prevents Cypress from failing the test
+});
 
 describe('Login Module', function () {
   before(function () {

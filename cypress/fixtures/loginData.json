@@ -1,17 +1,17 @@
 [
   {
-    "username": "Esmael-QA",
-    "password": "P@ss123!@#",
+    "username": "Admin",
+    "password": "admin123",
     "expected": "success"
   },
   {
     "username": "user",
     "password": "user123",
-    "expected": "fail"
+    "expected": "error"
   },
   {
     "username": "",
     "password": "",
-    "expected": "fail"
+    "expected": "error"
   }
 ]
